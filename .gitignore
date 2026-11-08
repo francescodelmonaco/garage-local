@@ -1,0 +1,10 @@
+node_modules
+.next
+.env
+backups/*.dump
+*.tsbuildinfo
+next-env.d.ts
+.taste-skill/
+.claude/skills/design-taste-frontend/
+.claude/settings.local.json
+.codex/*.local.*

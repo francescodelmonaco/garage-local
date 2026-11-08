@@ -1,0 +1,1065 @@
+{
+  "id": "5e2a4710-75b0-45a0-89ff-e7b552d66a12",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.insurances": {
+      "name": "insurances",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "vehicle_id": {
+          "name": "vehicle_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "company": {
+          "name": "company",
+          "type": "insurance_company_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "policy_number": {
+          "name": "policy_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "coverage_type": {
+          "name": "coverage_type",
+          "type": "insurance_coverage_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cost": {
+          "name": "cost",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "insurances_vehicle_id_idx": {
+          "name": "insurances_vehicle_id_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "insurances_vehicle_end_date_idx": {
+          "name": "insurances_vehicle_end_date_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "end_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "insurances_vehicle_id_vehicles_id_fk": {
+          "name": "insurances_vehicle_id_vehicles_id_fk",
+          "tableFrom": "insurances",
+          "tableTo": "vehicles",
+          "columnsFrom": [
+            "vehicle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "insurances_valid_details": {
+          "name": "insurances_valid_details",
+          "value": "\"insurances\".\"end_date\" >= \"insurances\".\"start_date\" and \"insurances\".\"cost\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.maintenances": {
+      "name": "maintenances",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "vehicle_id": {
+          "name": "vehicle_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "maintenance_type_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "km_at_maintenance": {
+          "name": "km_at_maintenance",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cost": {
+          "name": "cost",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "workshop": {
+          "name": "workshop",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "maintenances_vehicle_id_idx": {
+          "name": "maintenances_vehicle_id_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "maintenances_vehicle_id_vehicles_id_fk": {
+          "name": "maintenances_vehicle_id_vehicles_id_fk",
+          "tableFrom": "maintenances",
+          "tableTo": "vehicles",
+          "columnsFrom": [
+            "vehicle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "maintenances_valid_details": {
+          "name": "maintenances_valid_details",
+          "value": "\"maintenances\".\"title\" ~ '[^[:space:]]'\n    and (\"maintenances\".\"cost\" is null or \"maintenances\".\"cost\" >= 0) and (\"maintenances\".\"km_at_maintenance\" is null or \"maintenances\".\"km_at_maintenance\" >= 0)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.refuelings": {
+      "name": "refuelings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "vehicle_id": {
+          "name": "vehicle_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cost": {
+          "name": "cost",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "liters": {
+          "name": "liters",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price_per_liter": {
+          "name": "price_per_liter",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fuel_type": {
+          "name": "fuel_type",
+          "type": "fuel_type_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "station": {
+          "name": "station",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "refuelings_vehicle_id_idx": {
+          "name": "refuelings_vehicle_id_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "refuelings_vehicle_id_vehicles_id_fk": {
+          "name": "refuelings_vehicle_id_vehicles_id_fk",
+          "tableFrom": "refuelings",
+          "tableTo": "vehicles",
+          "columnsFrom": [
+            "vehicle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "refuelings_valid_details": {
+          "name": "refuelings_valid_details",
+          "value": "\"refuelings\".\"cost\" > 0 and \"refuelings\".\"liters\" > 0 and (\"refuelings\".\"price_per_liter\" is null or \"refuelings\".\"price_per_liter\" > 0)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.revisions": {
+      "name": "revisions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "vehicle_id": {
+          "name": "vehicle_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "next_revision_date": {
+          "name": "next_revision_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "km": {
+          "name": "km",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cost": {
+          "name": "cost",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "workshop": {
+          "name": "workshop",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "revisions_vehicle_id_idx": {
+          "name": "revisions_vehicle_id_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "revisions_vehicle_next_revision_date_idx": {
+          "name": "revisions_vehicle_next_revision_date_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "next_revision_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "revisions_vehicle_id_vehicles_id_fk": {
+          "name": "revisions_vehicle_id_vehicles_id_fk",
+          "tableFrom": "revisions",
+          "tableTo": "vehicles",
+          "columnsFrom": [
+            "vehicle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "revisions_valid_details": {
+          "name": "revisions_valid_details",
+          "value": "\"revisions\".\"next_revision_date\" > \"revisions\".\"date\"\n    and (\"revisions\".\"cost\" is null or \"revisions\".\"cost\" >= 0) and (\"revisions\".\"km\" is null or \"revisions\".\"km\" >= 0)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.taxes": {
+      "name": "taxes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "vehicle_id": {
+          "name": "vehicle_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year": {
+          "name": "year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paid_date": {
+          "name": "paid_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "taxes_vehicle_id_idx": {
+          "name": "taxes_vehicle_id_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "taxes_vehicle_latest_idx": {
+          "name": "taxes_vehicle_latest_idx",
+          "columns": [
+            {
+              "expression": "vehicle_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "year",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            },
+            {
+              "expression": "paid_date",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            },
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "taxes_vehicle_id_vehicles_id_fk": {
+          "name": "taxes_vehicle_id_vehicles_id_fk",
+          "tableFrom": "taxes",
+          "tableTo": "vehicles",
+          "columnsFrom": [
+            "vehicle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "taxes_valid_details": {
+          "name": "taxes_valid_details",
+          "value": "\"taxes\".\"year\" between 1886 and 9999 and \"taxes\".\"amount\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.vehicle_financings": {
+      "name": "vehicle_financings",
+      "schema": "",
+      "columns": {
+        "vehicle_id": {
+          "name": "vehicle_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "down_payment": {
+          "name": "down_payment",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "upfront_fees": {
+          "name": "upfront_fees",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "installment_amount": {
+          "name": "installment_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "installment_count": {
+          "name": "installment_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_installment_date": {
+          "name": "first_installment_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "balloon_payment": {
+          "name": "balloon_payment",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "balloon_outcome": {
+          "name": "balloon_outcome",
+          "type": "financing_balloon_outcome_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payoff_date": {
+          "name": "payoff_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payoff_amount": {
+          "name": "payoff_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lender": {
+          "name": "lender",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dealer": {
+          "name": "dealer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contract_number": {
+          "name": "contract_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "financed_amount": {
+          "name": "financed_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tan": {
+          "name": "tan",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "taeg": {
+          "name": "taeg",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "guaranteed_future_value": {
+          "name": "guaranteed_future_value",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "collection_fee": {
+          "name": "collection_fee",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "credit_insurance": {
+          "name": "credit_insurance",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "vehicle_financings_vehicle_id_vehicles_id_fk": {
+          "name": "vehicle_financings_vehicle_id_vehicles_id_fk",
+          "tableFrom": "vehicle_financings",
+          "tableTo": "vehicles",
+          "columnsFrom": [
+            "vehicle_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "vehicle_financings_amounts": {
+          "name": "vehicle_financings_amounts",
+          "value": "\"vehicle_financings\".\"down_payment\" >= 0 and \"vehicle_financings\".\"upfront_fees\" >= 0 and \"vehicle_financings\".\"installment_amount\" >= 0\n    and \"vehicle_financings\".\"installment_count\" between 1 and 600\n    and (\"vehicle_financings\".\"balloon_payment\" is null or \"vehicle_financings\".\"balloon_payment\" >= 0)\n    and (\"vehicle_financings\".\"payoff_amount\" is null or \"vehicle_financings\".\"payoff_amount\" >= 0)\n    and (\"vehicle_financings\".\"financed_amount\" is null or \"vehicle_financings\".\"financed_amount\" >= 0)\n    and (\"vehicle_financings\".\"guaranteed_future_value\" is null or \"vehicle_financings\".\"guaranteed_future_value\" >= 0)\n    and (\"vehicle_financings\".\"collection_fee\" is null or \"vehicle_financings\".\"collection_fee\" >= 0)\n    and (\"vehicle_financings\".\"tan\" is null or \"vehicle_financings\".\"tan\" between 0 and 100)\n    and (\"vehicle_financings\".\"taeg\" is null or \"vehicle_financings\".\"taeg\" between 0 and 100)"
+        },
+        "vehicle_financings_balloon": {
+          "name": "vehicle_financings_balloon",
+          "value": "\"vehicle_financings\".\"balloon_outcome\" is null or \"vehicle_financings\".\"balloon_payment\" is not null"
+        },
+        "vehicle_financings_payoff": {
+          "name": "vehicle_financings_payoff",
+          "value": "(\"vehicle_financings\".\"payoff_date\" is null) = (\"vehicle_financings\".\"payoff_amount\" is null)\n    and (\"vehicle_financings\".\"payoff_date\" is null or (\"vehicle_financings\".\"payoff_date\" >= \"vehicle_financings\".\"first_installment_date\"\n      and \"vehicle_financings\".\"payoff_date\" <= \"vehicle_financings\".\"first_installment_date\" + make_interval(months => \"vehicle_financings\".\"installment_count\")))"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.vehicles": {
+      "name": "vehicles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "brand": {
+          "name": "brand",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "model": {
+          "name": "model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "plate": {
+          "name": "plate",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "vehicle_type": {
+          "name": "vehicle_type",
+          "type": "vehicle_type_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fuel_type": {
+          "name": "fuel_type",
+          "type": "fuel_type_enum",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "year": {
+          "name": "year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "initial_km": {
+          "name": "initial_km",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "purchase_date": {
+          "name": "purchase_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "purchase_price": {
+          "name": "purchase_price",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "vehicles_required_details": {
+          "name": "vehicles_required_details",
+          "value": "\"vehicles\".\"brand\" ~ '[^[:space:]]' and \"vehicles\".\"model\" ~ '[^[:space:]]'"
+        },
+        "vehicles_valid_numbers": {
+          "name": "vehicles_valid_numbers",
+          "value": "(\"vehicles\".\"year\" is null or \"vehicles\".\"year\" between 1886 and 9999)\n    and (\"vehicles\".\"initial_km\" is null or \"vehicles\".\"initial_km\" >= 0)\n    and (\"vehicles\".\"purchase_price\" is null or \"vehicles\".\"purchase_price\" >= 0)"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.financing_balloon_outcome_enum": {
+      "name": "financing_balloon_outcome_enum",
+      "schema": "public",
+      "values": [
+        "Riscatto",
+        "Restituzione"
+      ]
+    },
+    "public.fuel_type_enum": {
+      "name": "fuel_type_enum",
+      "schema": "public",
+      "values": [
+        "Benzina",
+        "Diesel",
+        "GPL",
+        "Metano",
+        "Benzina + GPL",
+        "Benzina + Metano",
+        "Elettrico",
+        "Ibrido",
+        "Ibrido Plug-in",
+        "Idrogeno",
+        "Altro"
+      ]
+    },
+    "public.insurance_company_enum": {
+      "name": "insurance_company_enum",
+      "schema": "public",
+      "values": [
+        "Linear",
+        "Quixa",
+        "Verti",
+        "Prima",
+        "Allianz Direct",
+        "Genertel",
+        "ConTe.it",
+        "Admiral",
+        "Genialloyd",
+        "Direct Line",
+        "Generali",
+        "Allianz",
+        "UnipolSai",
+        "Unipol",
+        "Reale Mutua",
+        "Zurich",
+        "AXA",
+        "Poste Italiane",
+        "Sara Assicurazioni",
+        "Cattolica Assicurazioni",
+        "Vittoria Assicurazioni",
+        "HDI Assicurazioni",
+        "Groupama",
+        "Itas Mutua",
+        "Helvetia",
+        "Aviva",
+        "Italiana Assicurazioni",
+        "Arca Assicurazioni",
+        "Alleanza Assicurazioni",
+        "Yolo",
+        "BeRebel",
+        "Ego Insurance",
+        "Net Insurance",
+        "Nobis Assicurazioni",
+        "Tua Assicurazioni",
+        "Wopta Assicurazioni",
+        "B2C Innovation",
+        "Connexa InsTech",
+        "FIT",
+        "Bene Assicurazioni",
+        "Intesa Sanpaolo",
+        "BNL Gruppo BNP Paribas",
+        "Amex Agenzia Assicurativa",
+        "Altro"
+      ]
+    },
+    "public.insurance_coverage_enum": {
+      "name": "insurance_coverage_enum",
+      "schema": "public",
+      "values": [
+        "RCA",
+        "RCA + Furto e Incendio",
+        "RCA + Kasko",
+        "Kasko completa",
+        "Mini Kasko",
+        "Altro"
+      ]
+    },
+    "public.maintenance_type_enum": {
+      "name": "maintenance_type_enum",
+      "schema": "public",
+      "values": [
+        "Tagliando",
+        "Cambio olio",
+        "Filtri",
+        "Freni",
+        "Pneumatici",
+        "Batteria",
+        "Cinghia distribuzione",
+        "Candele",
+        "Liquidi",
+        "Climatizzatore",
+        "Sospensioni",
+        "Scarico",
+        "Elettronica",
+        "Carrozzeria",
+        "Altro"
+      ]
+    },
+    "public.vehicle_type_enum": {
+      "name": "vehicle_type_enum",
+      "schema": "public",
+      "values": [
+        "Auto",
+        "Moto",
+        "Scooter",
+        "Furgone",
+        "Camper",
+        "Autocarro",
+        "Quad",
+        "Altro"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "garage-local",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Libretto digitale self-hosted per auto e moto: spese, scadenze, finanziamenti.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "node lib/deadlines.check.mjs && node lib/financing.check.mjs && node lib/input-validation.check.mjs && node lib/session.check.mjs && node lib/charts.check.mjs",
+    "check:structure": "node scripts/check-structure.mjs",
+    "verify": "npm run lint && npm run typecheck && npm run check && npm run check:structure",
+    "db:generate": "drizzle-kit generate",
+    "db:backup": "sh scripts/backup.sh backup",
+    "db:restore": "sh scripts/backup.sh restore"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.106.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
+    "drizzle-orm": "^0.45.4",
+    "lucide-react": "^1.70.0",
+    "next": "^16.4.5",
+    "postgres": "^3.4.9",
+    "radix-ui": "^1.8.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sonner": "^2.0.8",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.5",
+    "tailwindcss": "^4.3.5",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^6.0.3"
+  }
+}
