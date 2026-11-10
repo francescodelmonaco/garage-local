@@ -1,7 +1,7 @@
 "use client"
 
 import { BarAxes } from "@/components/charts/bar-axes"
-import { useElementWidth } from "@/hooks/use-element-width"
+import { useElementSize } from "@/hooks/use-element-size"
 import type { BarAnnotation } from "@/lib/charts/annotations"
 import { createBarLayout } from "@/lib/charts/bar-layout"
 
@@ -16,15 +16,20 @@ type BarChartProps = {
     annotations?: BarAnnotation[]
 }
 
-/** Colonne SVG: la geometria è pura e React aggiorna anche formato, altezza e annotazioni. */
-export function BarChart({ label, labels, values, format, tickFormat = format, height = 200, highlight, annotations }: BarChartProps) {
-    const { ref, width } = useElementWidth<HTMLDivElement>()
+/**
+ * Colonne SVG: la geometria è pura e React aggiorna anche formato, altezza e annotazioni.
+ * `height` è il minimo: in un contenitore flex il grafico occupa lo spazio libero.
+ */
+export function BarChart({ label, labels, values, format, tickFormat = format, height: minHeight = 200, highlight, annotations }: BarChartProps) {
+    const { ref, width, height: measured } = useElementSize<HTMLDivElement>(600, minHeight)
+    const height = Math.max(minHeight, measured)
     const layout = createBarLayout({ labels, values, width, height, tickFormat, annotations })
     const highlighted = (index: number) => highlight == null || (Array.isArray(highlight) ? highlight.includes(index) : highlight === index)
 
+    // SVG assoluto: non contribuisce all'altezza del contenitore, così il grafico può anche restringersi
     return (
-        <div ref={ref} className="w-full" style={{ minHeight: height }}>
-            <svg viewBox={`0 0 ${width} ${height}`} width="100%" height={height} role="img" aria-label={label} className="block overflow-visible num">
+        <div ref={ref} className="relative w-full flex-1" style={{ minHeight }}>
+            <svg viewBox={`0 0 ${width} ${height}`} width="100%" height={height} role="img" aria-label={label} className="absolute inset-x-0 top-0 block overflow-visible num">
                 <BarAxes layout={layout} width={width} />
                 {layout.bars.map((bar) => (
                     <rect key={bar.index} x={bar.x} y={bar.y} width={bar.width} height={bar.height}

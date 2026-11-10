@@ -39,8 +39,9 @@ passano da `hooks/use-brand-suggestions.ts`, con cache e retry TanStack Query.
 
 `components/bar-chart.tsx` rende colonne SVG e usa gli assi in `components/charts/`.
 `lib/charts/` contiene geometria e posizionamento delle annotazioni, senza DOM.
-`hooks/use-element-width.ts` osserva il contenitore e rilascia l'observer quando
-il componente viene smontato. Formati e palette rimangono quelli del progetto;
+`hooks/use-element-size.ts` osserva larghezza e altezza del contenitore e rilascia
+l'observer quando il componente viene smontato. Il grafico riempie lo spazio libero
+della card, con `height` come minimo. Formati e palette rimangono quelli del progetto;
 non ci sono globali sul browser né una libreria di grafici aggiuntiva.
 
 ## Invarianti del dominio

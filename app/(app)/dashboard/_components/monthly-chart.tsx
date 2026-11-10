@@ -16,7 +16,7 @@ export function MonthlyChart({ rows, year, filters }: { rows: MonthlyExpense[]; 
     const values = monthlyValues(rows, year, series.categories)
 
     return (
-        <Panel title="Spese mensili" aside={filters} className="gap-4 lg:col-span-2">
+        <Panel title="Spese mensili" aside={filters} className="flex flex-col gap-4 lg:col-span-2">
             {/* La scheda selezionata ha la riga da 2px */}
             <div role="tablist" aria-label="Categoria" className="grid grid-cols-2 gap-1 sm:grid-cols-4 sm:gap-0 sm:border-b sm:border-rule">
                 {SERIES.map((s) => {

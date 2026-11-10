@@ -17,7 +17,7 @@ export function RegisterTabs({ current, onSelect }: { current: RegisterName; onS
         <div className="mb-4 min-w-0">
             {/* Telefono: un select al posto di cinque schede che non ci stanno */}
             <NativeSelect aria-label="Registro" value={current} onChange={(e) => select(e.target.value as RegisterName)}
-                className="rounded-full px-4 text-base sm:hidden">
+                className="rounded-full pl-4 text-base sm:hidden">
                 {REGISTER_NAMES.map((name) => <option key={name} value={name}>{registerMeta[name].title}</option>)}
             </NativeSelect>
             <div role={onSelect ? "tablist" : undefined} className="hidden gap-6 border-b border-rule sm:flex">
