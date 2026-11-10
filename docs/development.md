@@ -34,6 +34,16 @@ verifica anche la pagina nel browser a dimensioni desktop e mobile, inclusi
 caricamento, errore e stato vuoto quando pertinenti. `verify` non sostituisce
 questa verifica né copre l'integrazione con PostgreSQL.
 
+Se `npm run dev` riceve l'errore PostgreSQL `28P01` (password rifiutata), un altro
+Postgres occupa probabilmente `127.0.0.1:5432`, per esempio il container di un
+altro progetto. Controlla con `docker ps` o `lsof -iTCP:5432 -sTCP:LISTEN`, ferma
+l'altro servizio e avvia `docker compose up -d db`. La password vale solo alla
+prima creazione del volume `pgdata`: cambiarla dopo nel `.env` produce lo stesso errore.
+
+Per prove con scritture o screenshot usa un database separato nello stesso container
+(`docker compose exec db createdb -U garage garage_demo`) e passa a `npm run dev`
+un `DATABASE_URL` che punta a `garage_demo`.
+
 ## Convenzioni
 
 - Leggi le guide della versione installata in `node_modules/next/dist/docs/`
