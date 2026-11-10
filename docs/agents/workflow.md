@@ -24,7 +24,9 @@ automaticamente dagli strumenti.
 4. Rivedi il risultato per comportamento, duplicazioni, errori e accessibilità.
    Esegui `npm run verify` e, per codice dell'app, `npm run build`.
 5. Concludi il task con esiti reali dei controlli e limiti ancora aperti. Riporta
-   all'utente cosa cambia e come è stato verificato.
+   all'utente cosa cambia e come è stato verificato. Concluso il task, il file si
+   cancella nella stessa modifica: lo storico sta in git, le decisioni durature
+   nelle guide.
 
 ## Coordinamento quando viene richiesta la delega
 
