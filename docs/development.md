@@ -37,7 +37,8 @@ questa verifica né copre l'integrazione con PostgreSQL.
 Se `npm run dev` riceve l'errore PostgreSQL `28P01` (password rifiutata), un altro
 Postgres occupa probabilmente `127.0.0.1:5432`, per esempio il container di un
 altro progetto. Controlla con `docker ps` o `lsof -iTCP:5432 -sTCP:LISTEN`, ferma
-l'altro servizio e avvia `docker compose up -d db`. La password vale solo alla
+l'altro servizio e avvia `docker compose up -d db`. Per tenerli accesi insieme imposta
+nel `.env` un `POSTGRES_PORT` libero (es. `5433`) e la stessa porta in `DATABASE_URL`. La password vale solo alla
 prima creazione del volume `pgdata`: cambiarla dopo nel `.env` produce lo stesso errore.
 
 Per prove con scritture o screenshot usa un database separato nello stesso container

@@ -43,6 +43,7 @@ restano nel volume Docker `pgdata`.
 | `SESSION_SECRET` | Firma del cookie di sessione (`openssl rand -hex 32`) |
 | `SESSION_DAYS` | Durata della sessione in giorni (default 30) |
 | `POSTGRES_PASSWORD` | Password del database |
+| `POSTGRES_PORT` | Porta host di PostgreSQL (default 5432), da allineare in `DATABASE_URL` |
 | `APP_PORT` / `APP_BIND` | Porta e interfaccia esposte; `APP_BIND=0.0.0.0` per la rete locale |
 | `DATABASE_URL` | Solo per `npm run dev` |
 
