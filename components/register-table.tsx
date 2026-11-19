@@ -92,9 +92,9 @@ export function RegisterTable({ name, vehicleId, page: asPage = false }: { name:
             {isError ? (
                 <BlockError what={meta.title.toLowerCase()} onRetry={() => refetch()} />
             ) : isPending ? (
-                <div className="rounded-xl bg-card px-[22px] py-2"><PendingRows count={5} /></div>
+                <div className="rounded-xl bg-card px-[22px] py-2 shadow-card"><PendingRows count={5} /></div>
             ) : data.rows.length === 0 ? (
-                <div className="rounded-xl bg-card px-[22px] py-6 text-sm text-muted-foreground">
+                <div className="card-in rounded-xl bg-card px-[22px] py-6 text-sm shadow-card text-muted-foreground">
                     {search ? `Nessun risultato per “${search}”.` : meta.empty}
                 </div>
             ) : (

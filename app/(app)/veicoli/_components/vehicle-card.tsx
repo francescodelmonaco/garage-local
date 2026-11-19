@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 export function VehicleCard({ vehicle, expense, next, wide }: { vehicle: Vehicle; expense?: VehicleExpense; next?: DeadlineRow; wide: boolean }) {
     return (
         <Link href={`/veicoli/${vehicle.id}`}
-            className={cn("grid gap-4 rounded-xl bg-card p-[22px] transition-[background-color,transform] duration-150 hover:-translate-y-0.5 hover:bg-muted",
+            className={cn("grid gap-4 card-in rounded-xl bg-card p-[22px] shadow-card transition-[background-color,box-shadow] duration-200 hover:bg-muted hover:shadow-card-hover",
                 wide && "sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-10")}>
             <div className="grid gap-2">
                 <LicensePlate plate={vehicle.plate} />

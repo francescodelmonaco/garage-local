@@ -13,7 +13,7 @@ export function RegisterCell({ column, row }: { column: ColumnDef; row: Register
     switch (column.kind) {
         case "date": return <span className="num">{day(value as string | null)}</span>
         case "deadline": return <Deadline date={value as string | null} current={isCurrent(row)} />
-        case "euro": return <span className="num">{euro(value as number | null)}</span>
+        case "euro": return <span className="num">{euro(value as number | null, column.precise)}</span>
         case "number": return <span className="num">{num(value as number | null, column.unit)}</span>
         default: return <>{value ?? <span className="text-faint">—</span>}</>
     }
@@ -24,7 +24,7 @@ export function formatCellText(column: ColumnDef, row: RegisterRow) {
     const value = cellValue(column, row)
     if (value == null || value === "") return null
     if (column.kind === "date" || column.kind === "deadline") return day(value as string)
-    if (column.kind === "euro") return euro(value as number)
+    if (column.kind === "euro") return euro(value as number, column.precise)
     if (column.kind === "number") return num(value as number, column.unit)
     return String(value)
 }

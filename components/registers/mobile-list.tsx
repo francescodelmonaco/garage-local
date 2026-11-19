@@ -9,7 +9,7 @@ export function MobileList({ meta, rows, showVehicle, actions }: RegisterRowsPro
     const secondary = meta.columns.filter((c) => c !== identity && c !== amount)
 
     return (
-        <ul className="grid divide-y divide-rule rounded-xl bg-card px-4 md:hidden">
+        <ul className="grid divide-y divide-rule card-in rounded-xl bg-card px-4 shadow-card md:hidden">
             {rows.map((row) => (
                 <li key={row.id} className="flex items-center gap-2 py-3">
                     <div className="grid min-w-0 flex-1 gap-1">

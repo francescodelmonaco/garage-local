@@ -35,6 +35,14 @@ docker compose up -d --build
 Apri http://localhost:3000. Le migrazioni partono da sole all'avvio; i dati
 restano nel volume Docker `pgdata`.
 
+Dopo una modifica al codice ricostruisci e riavvia solo l'app (il database resta
+com'è):
+
+```sh
+docker compose up -d --build app
+docker image prune -f   # facoltativo: rimuove le immagini precedenti
+```
+
 ## Configurazione
 
 | Variabile | Uso |

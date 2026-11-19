@@ -5,7 +5,7 @@ import { it } from "date-fns/locale"
 import Link from "next/link"
 import { Deadline, DeadlineLabel, LicensePlate, Note } from "@/components/bits"
 import { Panel } from "@/components/panel"
-import { DEADLINE_LABELS, DEADLINE_LINKS, daysUntil, deadlineStatus } from "@/lib/deadlines"
+import { DEADLINE_LABELS, DEADLINE_LINKS, clusterMarks, daysUntil, deadlineStatus } from "@/lib/deadlines"
 import { day, vehicleName } from "@/lib/format"
 import type { Deadline as DeadlineRow } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -62,11 +62,20 @@ function Timeline({ deadlines, multi }: { deadlines: DeadlineRow[]; multi: boole
                         {multi && <span className="text-xs text-muted-foreground">{vehicleName(vehicle)}</span>}
                         <div className="relative h-7 rounded-md bg-muted" aria-hidden>
                             <span className="absolute inset-y-0 left-0 w-px bg-brand" />
-                            {spread(marks).map(({ d, at }) => (
-                                <KindBadge key={d.kind} deadline={d} title={`${DEADLINE_LABELS[d.kind]}: ${day(d.date)}`}
-                                    style={{ left: `calc(${at * 100}% - ${at * 20}px)` }}
-                                    className={cn("absolute top-1 flex text-background", deadlineStatus(daysUntil(d.date)) === "ok" ? "bg-foreground" : "bg-destructive")} />
-                            ))}
+                            {clusterMarks(marks).map(({ items, at }) => {
+                                // Pila di cerchi sovrapposti di 8px: larghezza per tenerla dentro la striscia
+                                const width = 20 + (items.length - 1) * 12
+                                return (
+                                    <span key={items[0].d.kind} className="absolute top-1 flex" style={{ left: `calc(${at * 100}% - ${at * width}px)` }}>
+                                        {items.map(({ d }, i) => (
+                                            <KindBadge key={d.kind} deadline={d} title={`${DEADLINE_LABELS[d.kind]}: ${day(d.date)}`}
+                                                style={{ animationDelay: `${i * 60}ms` }}
+                                                className={cn("flex text-background shadow-sm ring-2 ring-muted not-first:-ml-2 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-50 motion-safe:duration-300 motion-safe:fill-mode-both",
+                                                    deadlineStatus(daysUntil(d.date)) === "ok" ? "bg-foreground" : "bg-destructive")} />
+                                        ))}
+                                    </span>
+                                )
+                            })}
                         </div>
                     </div>
                 )
@@ -85,13 +94,4 @@ function KindBadge({ deadline, className, ...props }: { deadline: Pick<DeadlineR
             {deadline.kind[0].toUpperCase()}
         </span>
     )
-}
-
-/** Segni a meno di 7% l'uno dall'altro si affiancano invece di sovrapporsi. */
-function spread<T extends { at: number }>(marks: T[]) {
-    const sorted = [...marks].sort((a, b) => a.at - b.at)
-    for (let i = 1; i < sorted.length; i++) sorted[i] = { ...sorted[i], at: Math.max(sorted[i].at, sorted[i - 1].at + 0.07) }
-    // ponytail: se l'ultimo esce dalla striscia si ricompatta a destra; con 3 segni basta
-    const overflow = (sorted.at(-1)?.at ?? 0) - 1
-    return overflow > 0 ? sorted.map((m) => ({ ...m, at: m.at - overflow })) : sorted
 }

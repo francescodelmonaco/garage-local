@@ -1,6 +1,6 @@
 "use client"
 
-import { CircleAlert, Clock } from "lucide-react"
+import { CalendarCheck, CircleAlert, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DEADLINE_LABELS, daysUntil, deadlineStatus, describeDeadline } from "@/lib/deadlines"
 import { day } from "@/lib/format"
@@ -38,7 +38,7 @@ export function LicensePlate({ plate, className }: { plate: string; className?: 
 }
 
 /**
- * Data di scadenza con il suo stato. Colore solo dove serve una decisione:
+ * Data di scadenza con il suo stato, sempre in una chip. Colore solo dove serve una decisione:
  * scaduta (coppia rossa piena), entro 30 giorni (contorno rosso); valida in grigio.
  * Le righe storiche (`current` falso) mostrano solo la data: sono state sostituite.
  */
@@ -50,15 +50,14 @@ export function Deadline({ date, current = true }: { date: string | null; curren
     return (
         <span className="inline-flex flex-wrap items-center gap-2">
             <span className="num">{day(date)}</span>
-            {status === "ok" ? (
-                <span className="text-xs text-muted-foreground">{describeDeadline(days)}</span>
-            ) : (
-                <span className={cn("inline-flex h-5 flex-none items-center gap-1 rounded-full px-2 text-xs font-medium whitespace-nowrap text-destructive",
-                    status === "expired" ? "bg-negative-bg" : "ring-1 ring-destructive/50 ring-inset")}>
-                    {status === "expired" ? <CircleAlert className="size-3" aria-hidden /> : <Clock className="size-3" aria-hidden />}
-                    {describeDeadline(days)}
-                </span>
-            )}
+            <span className={cn("inline-flex h-5 flex-none items-center gap-1 rounded-full px-2 text-xs font-medium whitespace-nowrap",
+                status === "ok" ? "bg-muted text-muted-foreground" : "text-destructive",
+                status === "expired" ? "bg-negative-bg" : status === "soon" && "ring-1 ring-destructive/50 ring-inset")}>
+                {status === "expired" ? <CircleAlert className="size-3" aria-hidden />
+                    : status === "soon" ? <Clock className="size-3" aria-hidden />
+                    : <CalendarCheck className="size-3" aria-hidden />}
+                {describeDeadline(days)}
+            </span>
         </span>
     )
 }

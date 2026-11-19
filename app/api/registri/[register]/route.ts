@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, ilike, or, sum, getTableColumns, type SQL } from "drizzle-orm"
+import { and, count, desc, eq, ilike, or, sql, sum, getTableColumns, type SQL } from "drizzle-orm"
 import type { PgTable } from "drizzle-orm/pg-core"
 import { NextResponse, type NextRequest } from "next/server"
 import { db } from "@/db"
@@ -28,8 +28,9 @@ export async function GET(request: NextRequest, { params }: Params) {
     const sortParam = query.get("sort") ?? ""
     const sortKey = sortParam.replace(/^-/, "")
     const sortColumn = { ...sorts, ...vehicleSort }[sortKey as keyof typeof sorts] ?? Object.values(sorts)[0]
-    const direction = sortParam.startsWith("-") || !sortParam ? desc : asc
-    const orderBy: SQL[] = [direction(sortColumn), desc(table.id)]
+    const direction = sortParam.startsWith("-") || !sortParam ? sql`desc` : sql`asc`
+    // Campi facoltativi vuoti sempre in fondo, in entrambe le direzioni
+    const orderBy: SQL[] = [sql`${sortColumn} ${direction} nulls last`, desc(table.id)]
 
     const page = Math.max(0, Number(query.get("page")) || 0)
     const join = eq(vehicles.id, table.vehicle_id)

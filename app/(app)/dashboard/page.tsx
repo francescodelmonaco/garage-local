@@ -73,8 +73,8 @@ function DashboardSkeleton() {
                 {[0, 1, 2].map((i) => <Stat key={i} label={<Pending className="h-3 w-24" />} value={null} sub={<Pending className="h-3 w-40" />} />)}
             </StatGroup>
             <div className="grid gap-4 lg:grid-cols-3">
-                <div className="h-[380px] rounded-xl bg-card lg:col-span-2" />
-                <div className="h-[380px] rounded-xl bg-card" />
+                <div className="h-[380px] rounded-xl bg-card shadow-card lg:col-span-2" />
+                <div className="h-[380px] rounded-xl bg-card shadow-card" />
             </div>
         </div>
     )

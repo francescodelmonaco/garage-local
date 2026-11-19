@@ -26,7 +26,7 @@ export default function LoginPage() {
 
     return (
         <main className="grid min-h-dvh place-items-center px-4">
-            <form onSubmit={submit} className="grid w-full max-w-sm gap-6 rounded-xl bg-card p-8">
+            <form onSubmit={submit} className="grid w-full max-w-sm gap-6 card-in rounded-xl bg-card p-8 shadow-card">
                 <div className="grid gap-3">
                     <Mark />
                     <h1 className="text-xl font-semibold tracking-tight">Accedi al garage</h1>

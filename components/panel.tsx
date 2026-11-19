@@ -11,7 +11,7 @@ export function Panel({ title, aside, className, children }: {
 }) {
     const id = useId()
     return (
-        <section aria-labelledby={id} className={cn("grid min-w-0 content-start gap-2 rounded-xl bg-card p-[22px]", className)}>
+        <section aria-labelledby={id} className={cn("grid min-w-0 content-start gap-2 card-in rounded-xl bg-card p-[22px] shadow-card", className)}>
             <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
                 <h2 id={id} className="text-base font-semibold">{title}</h2>
                 {aside}
@@ -23,7 +23,7 @@ export function Panel({ title, aside, className, children }: {
 
 /** Fila di saldi in un contenitore diviso: la cifra che risponde alla domanda per prima. */
 export function StatGroup({ label, children }: { label?: string; children: React.ReactNode }) {
-    return <section aria-label={label} className="grid rounded-xl bg-card sm:grid-cols-3">{children}</section>
+    return <section aria-label={label} className="card-in grid rounded-xl bg-card shadow-card sm:grid-cols-3">{children}</section>
 }
 
 /** Un saldo: etichetta, cifra (`null` = in caricamento) e riga di contesto. `lead` per la cifra principale. */

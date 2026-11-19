@@ -24,7 +24,7 @@ export default function VehiclesPage() {
         <>
             <TitleRow title="Veicoli" subline={isPending ? <Pending className="h-4 w-40" /> : subline} actions={addButton} />
             {isError ? <BlockError what="i veicoli" onRetry={() => refetch()} />
-                : isPending ? <div className="h-36 rounded-xl bg-card" aria-busy="true" />
+                : isPending ? <div className="h-36 rounded-xl bg-card shadow-card" aria-busy="true" />
                     : vehicles.length === 0 ? <EmptyState title="Il garage è vuoto: aggiungi il primo veicolo.">{addButton}</EmptyState>
                         : (
                             <div className={cn("grid gap-4", columns)}>

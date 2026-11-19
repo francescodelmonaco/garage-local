@@ -35,6 +35,8 @@ export type ColumnDef = {
     sort?: string
     value?: (row: Row) => string | number | null
     unit?: string
+    /** Euro al millesimo: prezzo al litro */
+    precise?: boolean
 }
 
 export type RegisterMeta = {
@@ -56,9 +58,9 @@ export const registerMeta: Record<RegisterName, RegisterMeta> = {
         columns: [
             { key: "date", label: "Data", kind: "date", sort: "date" },
             { key: "title", label: "Intervento", kind: "text", sort: "title" },
-            { key: "type", label: "Tipo", kind: "text" },
+            { key: "type", label: "Tipo", kind: "text", sort: "type" },
             { key: "km_at_maintenance", label: "Km", kind: "number", sort: "km_at_maintenance", unit: "km" },
-            { key: "workshop", label: "Officina", kind: "text" },
+            { key: "workshop", label: "Officina", kind: "text", sort: "workshop" },
             { key: "cost", label: "Costo", kind: "euro", sort: "cost" },
         ],
         fields: [
@@ -77,9 +79,9 @@ export const registerMeta: Record<RegisterName, RegisterMeta> = {
         columns: [
             { key: "date", label: "Data", kind: "date", sort: "date" },
             { key: "liters", label: "Litri", kind: "number", sort: "liters", unit: "l" },
-            { key: "price_per_liter", label: "Costo/l", kind: "euro", sort: "price_per_liter" },
-            { key: "fuel_type", label: "Carburante", kind: "text" },
-            { key: "station", label: "Distributore", kind: "text" },
+            { key: "price_per_liter", label: "Costo/l", kind: "euro", sort: "price_per_liter", precise: true },
+            { key: "fuel_type", label: "Carburante", kind: "text", sort: "fuel_type" },
+            { key: "station", label: "Distributore", kind: "text", sort: "station" },
             { key: "cost", label: "Costo", kind: "euro", sort: "cost" },
         ],
         fields: [
@@ -96,7 +98,7 @@ export const registerMeta: Record<RegisterName, RegisterMeta> = {
         title: "Assicurazioni", noun: "assicurazione", feminine: true, empty: "Nessuna assicurazione.", defaultSort: "-end_date",
         columns: [
             { key: "company", label: "Compagnia", kind: "text", sort: "company" },
-            { key: "coverage_type", label: "Copertura", kind: "text" },
+            { key: "coverage_type", label: "Copertura", kind: "text", sort: "coverage_type" },
             { key: "start_date", label: "Inizio", kind: "date", sort: "start_date" },
             { key: "end_date", label: "Scadenza", kind: "deadline", sort: "end_date" },
             { key: "cost", label: "Costo", kind: "euro", sort: "cost" },
@@ -117,7 +119,7 @@ export const registerMeta: Record<RegisterName, RegisterMeta> = {
         columns: [
             { key: "year", label: "Anno", kind: "text", sort: "year" },
             { key: "paid_date", label: "Pagato il", kind: "date", sort: "paid_date" },
-            { key: "due", label: "Scadenza", kind: "deadline", value: (row) => taxDueDate(row.paid_date as string | null) },
+            { key: "due", label: "Scadenza", kind: "deadline", sort: "paid_date", value: (row) => taxDueDate(row.paid_date as string | null) },
             { key: "amount", label: "Importo", kind: "euro", sort: "amount" },
         ],
         fields: [
@@ -133,8 +135,8 @@ export const registerMeta: Record<RegisterName, RegisterMeta> = {
         columns: [
             { key: "date", label: "Data", kind: "date", sort: "date" },
             { key: "next_revision_date", label: "Prossima", kind: "deadline", sort: "next_revision_date" },
-            { key: "km", label: "Km", kind: "number", unit: "km" },
-            { key: "workshop", label: "Officina", kind: "text" },
+            { key: "km", label: "Km", kind: "number", sort: "km", unit: "km" },
+            { key: "workshop", label: "Officina", kind: "text", sort: "workshop" },
             { key: "cost", label: "Costo", kind: "euro", sort: "cost" },
         ],
         fields: [

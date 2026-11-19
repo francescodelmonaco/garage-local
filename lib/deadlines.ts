@@ -32,3 +32,17 @@ export function describeDeadline(days: number) {
     if (days === 1) return "Scade domani"
     return `Tra ${days} giorni`
 }
+
+/**
+ * Segni della striscia scadenze a meno di `gap` l'uno dall'altro: un solo gruppo alla loro posizione media.
+ * Affiancarli in sequenza li spingerebbe in avanti, come se scadessero più tardi.
+ */
+export function clusterMarks<T extends { at: number }>(marks: T[], gap = 0.07) {
+    const groups: T[][] = []
+    for (const mark of [...marks].sort((a, b) => a.at - b.at)) {
+        const last = groups.at(-1)
+        if (last && mark.at - last.at(-1)!.at < gap) last.push(mark)
+        else groups.push([mark])
+    }
+    return groups.map((items) => ({ items, at: items.reduce((total, m) => total + m.at, 0) / items.length }))
+}

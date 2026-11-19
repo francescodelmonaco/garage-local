@@ -8,15 +8,17 @@ import type { RegisterName } from "./register-meta"
 export const registers = {
     rifornimenti: {
         table: refuelings, schema: refuelingInputSchema, amount: refuelings.cost,
-        sorts: { date: refuelings.date, cost: refuelings.cost, liters: refuelings.liters, price_per_liter: refuelings.price_per_liter },
+        sorts: { date: refuelings.date, cost: refuelings.cost, liters: refuelings.liters, price_per_liter: refuelings.price_per_liter,
+            fuel_type: refuelings.fuel_type, station: refuelings.station },
     },
     manutenzioni: {
         table: maintenances, schema: maintenanceInputSchema, amount: maintenances.cost,
-        sorts: { date: maintenances.date, cost: maintenances.cost, title: maintenances.title, km_at_maintenance: maintenances.km_at_maintenance },
+        sorts: { date: maintenances.date, cost: maintenances.cost, title: maintenances.title, km_at_maintenance: maintenances.km_at_maintenance,
+            type: maintenances.type, workshop: maintenances.workshop },
     },
     assicurazioni: {
         table: insurances, schema: insuranceInputSchema, amount: insurances.cost,
-        sorts: { end_date: insurances.end_date, start_date: insurances.start_date, cost: insurances.cost, company: insurances.company },
+        sorts: { end_date: insurances.end_date, start_date: insurances.start_date, cost: insurances.cost, company: insurances.company, coverage_type: insurances.coverage_type },
         // La riga in corso per veicolo: solo lei ha uno stato di scadenza, le altre sono storico
         latest: [desc(insurances.end_date), desc(insurances.id)],
     },
@@ -27,7 +29,7 @@ export const registers = {
     },
     revisioni: {
         table: revisions, schema: revisionInputSchema, amount: revisions.cost,
-        sorts: { date: revisions.date, next_revision_date: revisions.next_revision_date, cost: revisions.cost },
+        sorts: { date: revisions.date, next_revision_date: revisions.next_revision_date, cost: revisions.cost, km: revisions.km, workshop: revisions.workshop },
         latest: [desc(revisions.next_revision_date), desc(revisions.id)],
     },
 } satisfies Record<RegisterName, { sorts: Record<string, PgColumn>; latest?: SQL[] } & Record<string, unknown>>

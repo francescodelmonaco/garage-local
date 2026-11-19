@@ -8,7 +8,7 @@ import type { RegisterRowsProps } from "@/components/registers/types"
 export function RegisterRows(props: RegisterRowsProps) {
     return (
         <>
-            <div className="hidden rounded-xl bg-card px-3 py-1 md:block"><DesktopTable {...props} /></div>
+            <div className="card-in hidden rounded-xl bg-card px-3 shadow-card py-1 md:block"><DesktopTable {...props} /></div>
             <MobileList {...props} />
         </>
     )

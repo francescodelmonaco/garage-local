@@ -4,9 +4,11 @@ import type { Vehicle } from "./types"
 
 const euroFormat = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR" })
 const euroRoundFormat = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR", maximumFractionDigits: 0 })
+const euroPreciseFormat = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR", minimumFractionDigits: 3 })
 const numberFormat = new Intl.NumberFormat("it-IT", { maximumFractionDigits: 2 })
 
-export const euro = (value: number | null | undefined) => value == null ? "—" : euroFormat.format(value)
+/** `precise`: tre decimali, per il prezzo al litro. */
+export const euro = (value: number | null | undefined, precise = false) => value == null ? "—" : (precise ? euroPreciseFormat : euroFormat).format(value)
 /** Euro senza decimali: tick e etichette del grafico. */
 export const euroRound = (value: number) => euroRoundFormat.format(value)
 export const num = (value: number | null | undefined, unit?: string) => value == null ? "—" : `${numberFormat.format(value)}${unit ? ` ${unit}` : ""}`
