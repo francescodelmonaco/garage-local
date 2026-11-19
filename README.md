@@ -32,7 +32,7 @@ cp .env.example .env   # imposta APP_PASSPHRASE e SESSION_SECRET
 docker compose up -d --build
 ```
 
-Apri http://localhost:3000. Le migrazioni partono da sole all'avvio; i dati
+Apri http://localhost:3001. Le migrazioni partono da sole all'avvio; i dati
 restano nel volume Docker `pgdata`.
 
 Dopo una modifica al codice ricostruisci e riavvia solo l'app (il database resta
@@ -52,7 +52,7 @@ docker image prune -f   # facoltativo: rimuove le immagini precedenti
 | `SESSION_DAYS` | Durata della sessione in giorni (default 30) |
 | `POSTGRES_PASSWORD` | Password del database |
 | `POSTGRES_PORT` | Porta host di PostgreSQL (default 5432), da allineare in `DATABASE_URL` |
-| `APP_PORT` / `APP_BIND` | Porta e interfaccia esposte; `APP_BIND=0.0.0.0` per la rete locale |
+| `APP_PORT` / `APP_BIND` | Porta (default 3001) e interfaccia esposte; `APP_BIND=0.0.0.0` per la rete locale |
 | `DATABASE_URL` | Solo per `npm run dev` |
 
 Dopo una modifica al `.env` esegui `docker compose up -d app`.
