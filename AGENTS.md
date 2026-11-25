@@ -20,20 +20,14 @@ funzionalità già coperte da React, TanStack Query o dai componenti del progett
 - [Architettura](docs/architecture.md): confini dei moduli e regole del dominio.
 - [Sviluppo](docs/development.md): avvio, verifiche e convenzioni del codice.
 - [Orchestrazione](docs/agents/workflow.md): pianificazione, ownership e handoff.
-- `CLAUDE.md` importa questo file: le regole comuni si modificano qui.
+- `CLAUDE.md` importa questo file: le regole della repo si modificano qui. Le regole generali
+  (lingua, git, commit, segreti, commenti, task, skill) stanno in `~/.codex/AGENTS.md`.
 
 ## Lavorare sulla repo
 
-- Leggi `git status` prima di modificare; conserva il lavoro preesistente.
-- Per lavori su più aree usa un piano in `docs/tasks/`, partendo dal template.
-  Mantieni aggiornati decisioni, verifiche e prossimi passi.
-- Delega solo quando richiesto dall'utente o da un'istruzione applicabile.
-  Assegna file distinti ai collaboratori; un solo responsabile integra il lavoro.
-- Non fare push, deploy, restore o cancellazioni dei dati senza richiesta.
-- Commit solo su richiesta esplicita, nello stile della repo scout-pro: una riga minuscola
-  in italiano con prefisso `add`/`fix`/`restyle`/`remove`/`update`, più modifiche separate
-  da virgola, nessun corpo, nessun `Co-Authored-By`.
-- Non stampare né versionare `.env`, cookie, credenziali o backup.
+- Task dal template in `docs/tasks/`.
+- Niente restore o cancellazioni dei dati senza richiesta.
+- Non versionare `.env`, cookie, credenziali o backup.
 
 ## Codice e verifica
 
@@ -41,11 +35,9 @@ funzionalità già coperte da React, TanStack Query o dai componenti del progett
 - Riusa `components/ui`, `Panel`, `TitleRow`, `RecordForm` e i metadati dei registri.
 - Componenti specifici vicino alla pagina in `_components/`; logica pura in
   `_lib/` o `lib/`; richieste client e cache negli hook TanStack Query.
-- Tieni i file applicativi entro 200 righe fisiche. Separa responsabilità reali,
-  senza comprimere righe né creare astrazioni per un solo frammento banale.
-  I componenti di base in `components/ui/` e le migrazioni generate sono esclusi.
+- Limite di 200 righe: niente astrazioni per un solo frammento banale; esclusi
+  `components/ui/` e le migrazioni generate.
 - Mantieni validazione server, messaggi italiani, accessibilità e confini client/server.
 - Prima di consegnare esegui `npm run verify`; per modifiche al codice dell'app
-  esegui anche `npm run build`. Segnala esplicitamente verifiche non eseguite.
-- Aggiungi test per regressioni e logica di dominio, non per rispecchiare il markup.
-- Aggiorna la guida pertinente quando cambiano struttura, comandi o comportamento.
+  esegui anche `npm run build`.
+- Test per regressioni e logica di dominio, non per rispecchiare il markup.
